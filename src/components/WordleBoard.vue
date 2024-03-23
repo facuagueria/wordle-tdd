@@ -1,13 +1,19 @@
 <script setup lang="ts">
-import { VICTORY_MESSAGE } from '@/settings'
+import { DEFEAT_MESSAGE, VICTORY_MESSAGE } from '@/settings'
+import { ref } from 'vue'
 
 defineProps<{
   wordOfTheDay: string
 }>()
+
+const wordInProgress = ref('')
+const wordSubmitted = ref('')
 </script>
 
 <template>
-  <input type="text" />
-  <p>{{ VICTORY_MESSAGE }}</p>
-  <p>{{ wordOfTheDay }}</p>
+  <input v-model="wordInProgress" type="text" @keydown.enter="wordSubmitted = wordInProgress" />
+  <p
+    v-if="wordSubmitted.length > 0"
+    v-text="wordSubmitted === wordOfTheDay ? VICTORY_MESSAGE : DEFEAT_MESSAGE"
+  />
 </template>
