@@ -16,7 +16,7 @@ const wordSubmitted = ref('')
 const formattedGuessInProgress = computed({
   get: () => wordInProgress.value,
   set: (rawValue: string) => {
-    wordInProgress.value = rawValue.slice(0, WORD_SIZE)
+    wordInProgress.value = rawValue.slice(0, WORD_SIZE).toUpperCase()
   }
 })
 
