@@ -11,6 +11,7 @@ const emit = defineEmits<{
 }>()
 
 const wordInProgress = ref<string | null>(null)
+const hasFailedValidation = ref<boolean>(false)
 
 const formattedGuessInProgress = computed<string>({
   get: () => wordInProgress.value ?? '',
@@ -25,7 +26,14 @@ const formattedGuessInProgress = computed<string>({
 })
 
 const onSubmit = () => {
-  if (!englishWords.includes(formattedGuessInProgress.value)) return
+  if (!englishWords.includes(formattedGuessInProgress.value)) {
+    hasFailedValidation.value = true
+    setTimeout(() => {
+      hasFailedValidation.value = false
+    }, 500)
+
+    return
+  }
 
   emit('guess-submitted', formattedGuessInProgress.value)
   wordInProgress.value = null
@@ -40,7 +48,11 @@ const isLetter = (event: KeyboardEvent) => {
 </script>
 
 <template>
-  <GuessView v-if="!disabled" :guess="formattedGuessInProgress" />
+  <GuessView
+    v-if="!disabled"
+    :guess="formattedGuessInProgress"
+    :class="{ shake: hasFailedValidation }"
+  />
 
   <input
     v-model="formattedGuessInProgress"
@@ -58,5 +70,23 @@ const isLetter = (event: KeyboardEvent) => {
 input {
   position: absolute;
   opacity: 0;
+}
+
+.shake {
+  animation: shake;
+  animation-duration: 100ms;
+  animation-iteration-count: 2;
+}
+
+@keyframes shake {
+  0% {
+    transform: translateX(-2%);
+  }
+  25% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(2%);
+  }
 }
 </style>
