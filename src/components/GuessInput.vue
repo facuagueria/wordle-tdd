@@ -40,7 +40,7 @@ const isLetter = (event: KeyboardEvent) => {
 </script>
 
 <template>
-  <GuessView :guess="formattedGuessInProgress" />
+  <GuessView v-if="!disabled" :guess="formattedGuessInProgress" />
 
   <input
     v-model="formattedGuessInProgress"
