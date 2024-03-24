@@ -4,6 +4,8 @@ import { computed, ref } from 'vue'
 import englishWords from '@/englishWordsWith5Letters.json'
 import GuessView from '@/components/GuessView.vue'
 
+withDefaults(defineProps<{ disabled?: boolean }>(), { disabled: false })
+
 const emit = defineEmits<{
   (e: 'guess-submitted', guess: string): void
 }>()
@@ -43,6 +45,7 @@ const isLetter = (event: KeyboardEvent) => {
   <input
     v-model="formattedGuessInProgress"
     :maxlength="WORD_SIZE"
+    :disabled="disabled"
     autofocus
     @blur="({ target }) => (target as HTMLInputElement).focus()"
     type="text"
