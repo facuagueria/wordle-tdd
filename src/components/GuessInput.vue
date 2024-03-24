@@ -25,7 +25,7 @@ const onSubmit = () => {
   if (!englishWords.includes(formattedGuessInProgress.value)) return
 
   emit('guess-submitted', formattedGuessInProgress.value)
-  wordInProgress.value = ''
+  wordInProgress.value = null
 }
 
 const isLetter = (event: KeyboardEvent) => {
