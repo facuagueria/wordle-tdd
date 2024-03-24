@@ -31,6 +31,13 @@ const onSubmit = () => {
   wordSubmitted.value = formattedGuessInProgress.value
   wordInProgress.value = ''
 }
+
+const isLetter = (event: KeyboardEvent) => {
+  if (event.key.length !== 1) return
+
+  const isLetter = event.key.match(/[A-z]/i)
+  if (!isLetter) event.preventDefault()
+}
 </script>
 
 <template>
@@ -38,6 +45,7 @@ const onSubmit = () => {
     v-model="formattedGuessInProgress"
     :maxlength="WORD_SIZE"
     type="text"
+    @keydown="isLetter($event)"
     @keydown.enter="onSubmit"
   />
   <p
