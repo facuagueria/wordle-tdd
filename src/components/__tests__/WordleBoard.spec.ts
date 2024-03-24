@@ -27,7 +27,7 @@ describe('WordleBoard', () => {
     })
 
     test('a defeat message appears if the user makes a guess that is incorrect', async () => {
-      await playerSubmitsGuess('ANOTHER THING')
+      await playerSubmitsGuess('WRONG')
 
       expect(wrapper.text()).toContain(DEFEAT_MESSAGE)
     })
@@ -70,7 +70,12 @@ describe('WordleBoard', () => {
       expect(wrapper.text()).toContain(VICTORY_MESSAGE)
     })
 
-    test.todo('player guesses can only be submitted if they are real words')
+    test('player guesses can only be submitted if they are real words', async () => {
+      await playerSubmitsGuess('QWERT')
+
+      expect(wrapper.text()).not.toContain(VICTORY_MESSAGE)
+      expect(wrapper.text()).not.toContain(DEFEAT_MESSAGE)
+    })
     test.todo('player guesses are not case-sensitive')
     test.todo('player guesses can only contain letters')
   })
