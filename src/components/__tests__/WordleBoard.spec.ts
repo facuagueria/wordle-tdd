@@ -191,4 +191,30 @@ describe('WordleBoard', () => {
       expect(wrapper.findAllComponents(GuessView)).toHaveLength(MAX_GUESSES_COUNT)
     })
   })
+
+  describe('Displaying hints/feedback to the player', () => {
+    test('hints are noy displayed until the player submits their guess', async () => {
+      expect(
+        wrapper.find('[data-letter-feedback]').exists(),
+        // eslint-disable-next-line vitest/valid-expect
+        'Feedback was being rendered before the player started typing their guess'
+      ).toBe(false)
+
+      await playerTypesGuess(wordOfTheDay)
+
+      expect(
+        wrapper.find('[data-letter-feedback]').exists(),
+        // eslint-disable-next-line vitest/valid-expect
+        'Feedback was rendered while the player was typing their guess'
+      ).toBe(false)
+
+      await playerPressesEnter()
+
+      expect(
+        wrapper.find('[data-letter-feedback]').exists(),
+        // eslint-disable-next-line vitest/valid-expect
+        'Feedback was not rendered after the player was typing their guess'
+      ).toBe(true)
+    })
+  })
 })
